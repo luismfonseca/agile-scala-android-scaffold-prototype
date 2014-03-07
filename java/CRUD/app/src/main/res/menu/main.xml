@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:uiOptions="splitActionBarWhenNarrow"
+    tools:context="pt.pimentelfonseca.agilescalaandroid.app.ui.MainActivity" >
+
+    <item android:id="@+id/menu_main_new_post"
+          android:title="@string/menu_main_new_post"
+          android:icon="@android:drawable/ic_menu_add"
+          android:showAsAction="ifRoom" />
+    <!--item android:id="@+id/action_settings"
+          android:title="@string/menu_main_action_settings"
+          android:orderInCategory="100"
+          android:showAsAction="never" /-->
+</menu>
