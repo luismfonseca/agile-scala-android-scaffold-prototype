@@ -14,6 +14,7 @@ import java.util.List;
 
 import pt.pimentelfonseca.agilescalaandroid.app.R;
 import pt.pimentelfonseca.agilescalaandroid.app.models.Post;
+import pt.pimentelfonseca.luis.agilescalaandroid.ChangeToFragmentHandler;
 
 
 public class PostListFragment extends ListFragment {
@@ -63,14 +64,9 @@ public class PostListFragment extends ListFragment {
     public void onListItemClick(ListView listView, View viw, int position, long id) {
 
         Post model = mItems.get(position);
-        FragmentTransaction transaction = super.getFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.animator.slide_in, R.animator.slide_out);
 
         PostFragment postFragment = PostFragment.newInstance(model, MainActivity.class);
-
-        transaction.replace(R.id.main_container, postFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        ((ChangeToFragmentHandler) getActivity()).onChangeToFragment(postFragment);
     }
 
 
