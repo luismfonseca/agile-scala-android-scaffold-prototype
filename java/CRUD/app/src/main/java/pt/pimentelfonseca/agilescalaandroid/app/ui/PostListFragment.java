@@ -1,6 +1,5 @@
 package pt.pimentelfonseca.agilescalaandroid.app.ui;
 
-import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import pt.pimentelfonseca.agilescalaandroid.app.R;
 import pt.pimentelfonseca.agilescalaandroid.app.models.Post;
 import pt.pimentelfonseca.luis.agilescalaandroid.ChangeToFragmentHandler;
 
@@ -65,7 +63,7 @@ public class PostListFragment extends ListFragment {
 
         Post model = mItems.get(position);
 
-        PostFragment postFragment = PostFragment.newInstance(model, MainActivity.class);
+        PostFragment postFragment = PostFragment.newInstance(model, PostMainActivity.class);
         ((ChangeToFragmentHandler) getActivity()).onChangeToFragment(postFragment);
     }
 

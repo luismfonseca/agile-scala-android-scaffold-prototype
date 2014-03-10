@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import pt.pimentelfonseca.agilescalaandroid.app.R;
 import pt.pimentelfonseca.luis.agilescalaandroid.ChangeToFragmentHandler;
 
-public class MainActivity
+public class PostMainActivity
     extends Activity
     implements PostFragment.PostDeleteHandler, ChangeToFragmentHandler, FragmentManager.OnBackStackChangedListener {
     @Override
@@ -36,7 +36,7 @@ public class MainActivity
 
         if (currentFragment.getClass() == PostListFragment.class)
         {
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.main_post, menu);
             return true;
         }
         return super.onCreateOptionsMenu(menu);
