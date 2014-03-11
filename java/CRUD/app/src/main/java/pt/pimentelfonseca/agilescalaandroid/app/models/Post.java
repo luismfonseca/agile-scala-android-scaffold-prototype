@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Post {
 
-    public String Title;
+    public String Title = "title";
     public int numberOfLikes;
     public Date date = new Date();
 

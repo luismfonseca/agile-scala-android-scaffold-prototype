@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pt.pimentelfonseca.agilescalaandroid.app" >
+          package="pt.pimentelfonseca.agilescalaandroid.app" >
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,7 @@
         <activity
             android:name="pt.pimentelfonseca.agilescalaandroid.app.ui.EditPostActivity"
             android:label="@string/title_activity_edit_post"
-            android:parentActivityName="pt.pimentelfonseca.agilescalaandroid.app.MainActivity" >
+            android:parentActivityName="pt.pimentelfonseca.agilescalaandroid.app.ui.PostMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
