@@ -69,7 +69,7 @@ class PostFragment extends Fragment {
   }
 
   override def onSaveInstanceState(outState: Bundle): Unit = {
-    outState.putString(PostFragment.BUNDLE_MODEL_JSON, "") //new Gson().toJson(mModel))
+    outState.putString(PostFragment.BUNDLE_MODEL_JSON, new Gson().toJson(mModel))
   }
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = {
@@ -84,9 +84,9 @@ class PostFragment extends Fragment {
   }
 
   private def displayPost(): Unit = {
-    mModelTitle.setText(mModel.title);
-    mModelNumberOfLikes.setText("" + mModel.numberOfLikes);
-    mModelDate.setText(DateFormat.format("dd-MM-yyyy", mModel.date));
+    mModelTitle.setText(mModel.title)
+    mModelNumberOfLikes.setText("" + mModel.numberOfLikes)
+    mModelDate.setText(DateFormat.format("dd-MM-yyyy", mModel.date))
   }
 
   override def onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater): Unit = {
