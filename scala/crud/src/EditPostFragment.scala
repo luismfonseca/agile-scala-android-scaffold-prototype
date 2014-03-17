@@ -14,7 +14,7 @@ import android.widget.DatePicker
 import android.widget.LinearLayout
 import android.widget.TextView
 
-//import com.google.gson.Gson
+import com.google.gson.Gson
 
 import java.util.Calendar
 import java.util.Date
@@ -28,7 +28,7 @@ object EditPostFragment {
 
   def newInstance(model: Post): EditPostFragment = {
     val arguments = new Bundle()
-    arguments.putString(BUNDLE_MODEL_JSON, "") //new Gson().toJson(model))
+    arguments.putString(BUNDLE_MODEL_JSON, new Gson().toJson(model))
 
     val fragment = new EditPostFragment()
     fragment.setArguments(arguments)
@@ -55,7 +55,7 @@ class EditPostFragment extends Fragment {
           val finalPost = new Post(mTitle.getText().toString(), Integer.parseInt(mNumberOfLikes.getText().toString()), new Date())
 
           val data = new Intent()
-          data.putExtra(EditPostFragment.BUNDLE_MODEL_JSON, "")//new Gson().toJson(mModel))
+          data.putExtra(EditPostFragment.BUNDLE_MODEL_JSON, new Gson().toJson(finalPost))
 
           getActivity().setResult(EditPostActivity.RESULT_EDIT_OCCURRED, data)
           getActivity().finish()
@@ -74,8 +74,8 @@ class EditPostFragment extends Fragment {
       }
       else
       {
-        val json = getArguments().getString(EditPostFragment.BUNDLE_MODEL_JSON);
-        mModel = new Post("dummyloaded", 0, new Date())//new Gson().fromJson(json, Post.getClass);
+        val json = getArguments().getString(EditPostFragment.BUNDLE_MODEL_JSON)
+        mModel = new Gson().fromJson(json, classOf[Post])
       }
     }
 

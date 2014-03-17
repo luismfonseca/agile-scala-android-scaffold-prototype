@@ -16,7 +16,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 
-//import com.google.gson.Gson
+import com.google.gson.Gson
 
 import java.util.ArrayList
 import java.util.Date
@@ -35,7 +35,7 @@ object PostFragment {
 
   def newInstance(model: Post): PostFragment = {
     val arguments = new Bundle()
-    arguments.putString(BUNDLE_MODEL_JSON, "") //new Gson().toJson(model))
+    arguments.putString(BUNDLE_MODEL_JSON, new Gson().toJson(model))
 
     val fragment = new PostFragment()
     fragment.setArguments(arguments)
@@ -60,10 +60,9 @@ class PostFragment extends Fragment {
     super.onCreate(bundle)
 
     if (getArguments() != null) {
-        val json = getArguments().getString(PostFragment.BUNDLE_MODEL_JSON);
+        val json = getArguments().getString(PostFragment.BUNDLE_MODEL_JSON)
 
-        //new Gson().fromJson(json, Post.class);
-        mModel = new Post("dummy", 0, new Date())
+        mModel = new Gson().fromJson(json, classOf[Post])
     }
     else {
       mModel = new Post("", 0, new Date())
@@ -111,7 +110,7 @@ class PostFragment extends Fragment {
 
         val intent = new Intent(getActivity(), classOf[EditPostActivity])
 
-        val postInJson = ""//new Gson().toJson(mModel)
+        val postInJson = new Gson().toJson(mModel)
         intent.putExtra(EditPostFragment.BUNDLE_MODEL_JSON, postInJson)
         startActivityForResult(intent, PostFragment.REQUEST_EDIT)
 
@@ -148,8 +147,8 @@ class PostFragment extends Fragment {
       case PostFragment.REQUEST_EDIT => {
         if (resultCode == EditPostActivity.RESULT_EDIT_OCCURRED)
         {
-            val json = data.getExtras().getString(EditPostFragment.BUNDLE_MODEL_JSON);
-            mModel = new Post("dummyEdited", 0, new Date())//new Gson().fromJson(json, Post.class);
+            val json = data.getExtras().getString(EditPostFragment.BUNDLE_MODEL_JSON)
+            mModel = new Gson().fromJson(json, classOf[Post])
 
             // TODO: Save the edited object to the database
             displayPost()

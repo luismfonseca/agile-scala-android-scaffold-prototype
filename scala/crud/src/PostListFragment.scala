@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ListView
 
-//import com.google.gson.Gson
+import com.google.gson.Gson
 
 import java.util.ArrayList
 import java.util.Date
@@ -23,7 +23,7 @@ object PostListFragment {
 
   def newInstance(model: Post): PostListFragment = {
     val arguments = new Bundle()
-    arguments.putString(BUNDLE_MODEL_JSON, "") //new Gson().toJson(model))
+    arguments.putString(BUNDLE_MODEL_JSON, new Gson().toJson(model))
 
     val fragment = new PostListFragment()
     fragment.setArguments(arguments)
