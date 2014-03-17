@@ -22,11 +22,11 @@ public class EditPostActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Fragment fragment = new EditPostFragment();
-        fragment.setArguments(getIntent().getExtras());
-
         setContentView(R.layout.activity_edit_post);
         if (savedInstanceState == null) {
+            Fragment fragment = new EditPostFragment();
+            fragment.setArguments(getIntent().getExtras());
+            
             getFragmentManager().beginTransaction()
                     .add(R.id.edit_post_container,  fragment)
                     .commit();
