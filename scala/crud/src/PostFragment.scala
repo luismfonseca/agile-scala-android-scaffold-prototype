@@ -1,8 +1,6 @@
 package pt.pimentelfonseca.agilescalaandroid.app.ui
 
-import android.app.AlertDialog
 import android.app.Fragment
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.format.DateFormat
@@ -11,16 +9,15 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.ListView
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 
+import org.scaloid.common._
+
 import com.google.gson.Gson
 
-import java.util.ArrayList
 import java.util.Date
-import java.util.List
 
 import pt.pimentelfonseca.agilescalaandroid.app.models.Post
 import pt.pimentelfonseca.agilescalaandroid.app.R
@@ -118,22 +115,16 @@ class PostFragment extends Fragment {
       }
       case PostFragment.MENU_ITEM_DELETE => {
 
-        val builder = new AlertDialog.Builder(getActivity())
-        builder.setMessage("Are you sure you want to delete this Post?")
-          .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-              def onClick(dialog: DialogInterface, id: Int): Unit = {
-                  Toast.makeText(PostFragment.this.getActivity(), "ok", Toast.LENGTH_LONG).show()
+        new AlertDialogBuilder("Delete post", "Do you really want to delete this post?")(getActivity()) {
+          positiveButton(android.R.string.yes, (_, _) => {
 
-                  // TODO: Actually remove the object from database
+            // TODO: Actually remove the object from database
+            toast("Post was deleted.")
 
-                  getActivity().asInstanceOf[PostFragment.PostDeleteHandler].onPostDeleteHandler
-              }
+            getActivity().asInstanceOf[PostFragment.PostDeleteHandler].onPostDeleteHandler
           })
-          .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-              def onClick(dialog: DialogInterface, id: Int): Unit = {
-              }
-          })
-        builder.create().show()
+          negativeButton(android.R.string.cancel)
+        }.show()
         true
       }
       case _ => super.onOptionsItemSelected(item)

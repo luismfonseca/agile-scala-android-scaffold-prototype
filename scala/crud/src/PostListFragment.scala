@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ListView
 
+import org.scaloid.common._
+
 import com.google.gson.Gson
 
-import java.util.ArrayList
 import java.util.Date
-import java.util.List
 
 import pt.pimentelfonseca.agilescalaandroid.app.models.Post
 

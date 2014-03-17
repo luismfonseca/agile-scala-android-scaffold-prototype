@@ -1,17 +1,13 @@
 package pt.pimentelfonseca.agilescalaandroid.app.ui
 
-import android.app.Activity
 import android.app.Fragment
 import android.app.FragmentManager
-import android.app.FragmentTransaction
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 
 import org.scaloid.common._
-import android.graphics.Color
-import android.view.MenuInflater
 
 import pt.pimentelfonseca.agilescalaandroid.app.R
 
@@ -35,7 +31,7 @@ class PostMainActivity
   }
   
   override def onCreateOptionsMenu(menu: Menu): Boolean = {
-    val currentFragment = getFragmentManager().findFragmentById(R.id.post_main_container);
+    val currentFragment = getFragmentManager().findFragmentById(R.id.post_main_container)
 
     if (currentFragment.getClass() == classOf[PostListFragment])
     {
@@ -71,11 +67,11 @@ class PostMainActivity
   }
 
   override def onChangeToFragment(fragment: Fragment): Unit = {
-    val fragmentTransaction = getFragmentManager().beginTransaction()
-    fragmentTransaction.setCustomAnimations(R.animator.slide_in, R.animator.slide_out)
-    fragmentTransaction.replace(R.id.post_main_container, fragment)
-    fragmentTransaction.addToBackStack(null)
-    fragmentTransaction.commit()
+    getFragmentManager().beginTransaction()
+      .setCustomAnimations(R.animator.slide_in, R.animator.slide_out)
+      .replace(R.id.post_main_container, fragment)
+      .addToBackStack(null)
+      .commit()
   }
 
   override def onBackStackChanged(): Unit = {

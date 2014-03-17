@@ -14,6 +14,8 @@ import android.widget.DatePicker
 import android.widget.LinearLayout
 import android.widget.TextView
 
+import org.scaloid.common._
+
 import com.google.gson.Gson
 
 import java.util.Calendar
@@ -43,23 +45,20 @@ class EditPostFragment extends Fragment {
   var mNumberOfLikes: TextView = _
   var mModel: Post = _
 
-  private val mActionBarListener = new View.OnClickListener() {
+  private val mActionBarListener = (view: View) => {
+    view.getId() match {
+      case R.id.action_cancel => {
+        getActivity().setResult(EditPostActivity.RESULT_NOTHING_CHANGED)
+        getActivity().finish()
+      }
+      case R.id.action_done => {
+        val finalPost = new Post(mTitle.getText().toString(), Integer.parseInt(mNumberOfLikes.getText().toString()), new Date())
 
-    override def onClick(view: View): Unit = {
-      view.getId() match {
-        case R.id.action_cancel => {
-          getActivity().setResult(EditPostActivity.RESULT_NOTHING_CHANGED)
-          getActivity().finish()
-        }
-        case R.id.action_done => {
-          val finalPost = new Post(mTitle.getText().toString(), Integer.parseInt(mNumberOfLikes.getText().toString()), new Date())
+        val data = new Intent()
+        data.putExtra(EditPostFragment.BUNDLE_MODEL_JSON, new Gson().toJson(finalPost))
 
-          val data = new Intent()
-          data.putExtra(EditPostFragment.BUNDLE_MODEL_JSON, new Gson().toJson(finalPost))
-
-          getActivity().setResult(EditPostActivity.RESULT_EDIT_OCCURRED, data)
-          getActivity().finish()
-        }
+        getActivity().setResult(EditPostActivity.RESULT_EDIT_OCCURRED, data)
+        getActivity().finish()
       }
     }
   }
@@ -78,7 +77,6 @@ class EditPostFragment extends Fragment {
         mModel = new Gson().fromJson(json, classOf[Post])
       }
     }
-
   }
 
   override def onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View = {
@@ -104,10 +102,8 @@ class EditPostFragment extends Fragment {
     mNumberOfLikes = view.findViewById(R.id.create_post_number_of_likes).asInstanceOf[TextView]
 
     mDateButton = view.findViewById(R.id.create_post_date).asInstanceOf[Button]
-    mDateButton.setOnClickListener(new View.OnClickListener() {
-
-      override def onClick(view: View): Unit = {
-
+    mDateButton.onClick({
+      
         val calendar = Calendar.getInstance()
         calendar.setTime(mModel.date)
         //FIX ME: use mDateButton.getText
@@ -123,12 +119,11 @@ class EditPostFragment extends Fragment {
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            //mModel.date = calendar.getTime()
+            mModel = mModel.copy(date = calendar.getTime())
             mDateButton.setText(DateFormat.format("dd-MM-yyyy", mModel.date))
           }
         }, year, month, day).show()
 
-      }
     })
 
     if (mModel != null)
