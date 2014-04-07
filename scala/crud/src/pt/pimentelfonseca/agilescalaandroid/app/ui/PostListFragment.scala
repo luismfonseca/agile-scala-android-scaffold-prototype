@@ -9,7 +9,6 @@ import org.scaloid.common._
 
 import com.google.gson.Gson
 
-import java.util.Date
 
 import pt.pimentelfonseca.agilescalaandroid.app.models.Post
 
@@ -36,9 +35,15 @@ class PostListFragment extends ListFragment {
   var mListAdapter: PostListAdapter = _
 
   lazy val mItems: Array[Post] = {
+  
+    // TODO: Load real object from database
     (1 to 4).foldLeft(Array[Post]()) {
       (acc, index) => {
-        acc :+ Post("Title", index, new Date())
+        acc :+ Post(
+          "Lorem ipsum dolor sit amet.",
+          5,
+          "Lorem ipsum dolor sit amet."
+        )
       }
     }
   }
@@ -47,12 +52,6 @@ class PostListFragment extends ListFragment {
     super.onActivityCreated(bundle)
 
     getListView().setDividerHeight(0)
-
-      // TODO: Load real objects from a database
-
-      //1 to 4 foreach {
-      //    mItems.add(Post("Ok", 1, new Date()))
-      //}
 
     mListAdapter = new PostListAdapter(getActivity(), mItems)
     setListAdapter(mListAdapter)

@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="C:\Users\ei101_000\Documents\agile-scala-android-scaffold-prototype\java\CRUD" />
+            <option value="C:\Users\ei101_000\Documents\agile-scala-android-scaffold-prototype\java\CRUD\app" />
           </set>
         </option>
       </GradleProjectSettings>

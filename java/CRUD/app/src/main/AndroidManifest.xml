@@ -2,11 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="pt.pimentelfonseca.agilescalaandroid.app" >
 
+    <uses-sdk android:minSdkVersion="17" ></uses-sdk>
+
+    <permission android:name="android.permission.CALL_PHONE"></permission>
+    <permission android:name="android.permission.BLUETOOTH_ADMIN"></permission>
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <activity
             android:name=".ui.PostMainActivity"
             android:label="@string/app_name" >

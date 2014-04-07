@@ -7,6 +7,7 @@ public class Post {
     public String Title = "title";
     public int numberOfLikes;
     public Date date = new Date();
+    public Author author = new Author();
 
     @Override
     public boolean equals(Object to)
@@ -16,6 +17,7 @@ public class Post {
             return false;
         }
         Post that = (Post) to;
-        return this.Title == that.Title && this.numberOfLikes == that.numberOfLikes && this.date.getTime() == that.date.getTime();
+        return this.Title == that.Title && this.numberOfLikes == that.numberOfLikes && this.date.getTime() == that.date.getTime()
+                && this.author == that.author;
     }
 }

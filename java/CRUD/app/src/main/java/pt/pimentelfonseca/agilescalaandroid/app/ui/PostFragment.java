@@ -3,8 +3,11 @@ package pt.pimentelfonseca.agilescalaandroid.app.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ListFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -13,10 +16,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Date;
 
 import pt.pimentelfonseca.agilescalaandroid.app.R;
 import pt.pimentelfonseca.agilescalaandroid.app.models.Post;
@@ -33,6 +42,7 @@ public class PostFragment extends Fragment {
     public TextView mModelTitle;
     public TextView mModelNumberOfLikes;
     public TextView mModelDate;
+    public LinearLayout mCommentsView;
 
     public static <T extends Activity & PostDeleteHandler> PostFragment newInstance(Post model, Class<T> activityHandler) {
         Bundle args = new Bundle();
@@ -73,10 +83,35 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post, container, false);
 
-        mModelTitle = (TextView) view.findViewById(R.id.post_title);
-        mModelNumberOfLikes = (TextView) view.findViewById(R.id.post_number_of_likes);
-        mModelDate = (TextView) view.findViewById(R.id.post_date);
+        View postView = inflater.inflate(R.layout.fragment_view_post, container, false);
 
+        FrameLayout postFrameLayout = (FrameLayout) view.findViewById(R.id.post_container);
+        postFrameLayout.addView(postView);
+
+        mModelTitle = (TextView) postView.findViewById(R.id.post_title);
+        mModelNumberOfLikes = (TextView) postView.findViewById(R.id.post_number_of_likes);
+        mModelDate = (TextView) postView.findViewById(R.id.post_date);
+
+        FrameLayout frameLayout = (FrameLayout) postView.findViewById(R.id.post_author_container);
+        frameLayout.addView(inflater.inflate(R.layout.fragment_view_author, container, false));
+
+        mCommentsView = new LinearLayout(getActivity());
+        mCommentsView.setOrientation(LinearLayout.VERTICAL);
+
+        ArrayList<Post> mItems = new ArrayList<Post>();
+        for (int i = 0; i < 5 ; i++)
+        {
+            Post post = new Post();
+            post.date = new Date();
+
+            mItems.add(post);
+        }
+        FrameLayout mCommentsFrameLayout = (FrameLayout) postView.findViewById(R.id.post_comments_container);
+        PostListAdapter comments = new PostListAdapter(getActivity(), mItems);
+        for (int i = 0; i < mItems.size(); ++i) {
+            mCommentsView.addView(comments.getView(i, null, null));
+        }
+        mCommentsFrameLayout.addView(mCommentsView);
         displayPost();
         return view;
     }

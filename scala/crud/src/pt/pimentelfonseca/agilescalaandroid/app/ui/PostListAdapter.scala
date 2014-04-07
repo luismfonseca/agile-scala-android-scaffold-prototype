@@ -9,12 +9,14 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 
-import pt.pimentelfonseca.agilescalaandroid.app.R
+
+
 import pt.pimentelfonseca.agilescalaandroid.app.models.Post
+import pt.pimentelfonseca.agilescalaandroid.app.R
 
 class PostListAdapter(val context: Activity, val items: Array[Post]) extends ArrayAdapter[Post](context, R.layout.item_post, items)  {
 
-  case class ViewHolder(title: TextView, numberOfLikes: TextView, date: TextView, placeholder: ImageView)
+  case class ViewHolder(title: TextView, numberOfLikes: TextView, description: TextView, placeholder: ImageView)
 
   override def getView(position: Int, convertView: View, parent: ViewGroup): View = {
 
@@ -28,7 +30,8 @@ class PostListAdapter(val context: Activity, val items: Array[Post]) extends Arr
         val viewHolder = new ViewHolder(
           newRowView.findViewById(R.id.item_post_title).asInstanceOf[TextView],
           newRowView.findViewById(R.id.item_post_number_of_likes).asInstanceOf[TextView],
-          newRowView.findViewById(R.id.item_post_date).asInstanceOf[TextView],
+          newRowView.findViewById(R.id.item_post_description).asInstanceOf[TextView],
+
           newRowView.findViewById(R.id.item_post_placeholder).asInstanceOf[ImageView]
         )
         newRowView.setTag(viewHolder)
@@ -44,7 +47,8 @@ class PostListAdapter(val context: Activity, val items: Array[Post]) extends Arr
     if (items(position) != null) {
       viewHolder.title.setText(items(position).title)
       viewHolder.numberOfLikes.setText("" + items(position).numberOfLikes)
-      viewHolder.date.setText("" + DateFormat.format("dd-MM-yyyy", items(position).date))
+      viewHolder.description.setText(items(position).description)
+
     }
 
     return rowView

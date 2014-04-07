@@ -3,7 +3,6 @@ package pt.pimentelfonseca.agilescalaandroid.app.ui
 import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -17,9 +16,9 @@ import org.scaloid.common._
 
 import com.google.gson.Gson
 
-import java.util.Date
 
 import pt.pimentelfonseca.agilescalaandroid.app.models.Post
+
 import pt.pimentelfonseca.agilescalaandroid.app.R
 
 object PostFragment {
@@ -48,10 +47,9 @@ object PostFragment {
 class PostFragment extends Fragment {
 
   var mModel: Post = _
-
   var mModelTitle: TextView = _
   var mModelNumberOfLikes: TextView = _
-  var mModelDate: TextView = _
+  var mModelDescription: TextView = _
 
   override def onCreate(bundle: Bundle): Unit = {
     super.onCreate(bundle)
@@ -62,7 +60,10 @@ class PostFragment extends Fragment {
         mModel = new Gson().fromJson(json, classOf[Post])
     }
     else {
-      mModel = new Post("", 0, new Date())
+	  throw new RuntimeException("Arguments bundle not were not included in the fragment!")
+	  
+	  // If you want, you can implement a default view.
+      //mModel = new Post(/* use model constructor here */)
     }
 
     setHasOptionsMenu(true)
@@ -77,16 +78,17 @@ class PostFragment extends Fragment {
 
     mModelTitle = view.findViewById(R.id.post_title).asInstanceOf[TextView]
     mModelNumberOfLikes = view.findViewById(R.id.post_number_of_likes).asInstanceOf[TextView]
-    mModelDate = view.findViewById(R.id.post_date).asInstanceOf[TextView]
+    mModelDescription = view.findViewById(R.id.post_description).asInstanceOf[TextView]
 
-    displayPost()
+    display()
     return view
   }
 
-  private def displayPost(): Unit = {
+  private def display(): Unit = {
     mModelTitle.setText(mModel.title)
     mModelNumberOfLikes.setText("" + mModel.numberOfLikes)
-    mModelDate.setText(DateFormat.format("dd-MM-yyyy", mModel.date))
+    mModelDescription.setText(mModel.description)
+
   }
 
   override def onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater): Unit = {
@@ -99,7 +101,6 @@ class PostFragment extends Fragment {
     deleteMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
   }
 
-
   override def onOptionsItemSelected(item: MenuItem): Boolean = {
 
     item.getItemId() match {
@@ -107,19 +108,19 @@ class PostFragment extends Fragment {
 
         val intent = new Intent(getActivity(), classOf[EditPostActivity])
 
-        val postInJson = new Gson().toJson(mModel)
-        intent.putExtra(EditPostFragment.BUNDLE_MODEL_JSON, postInJson)
+        val json = new Gson().toJson(mModel)
+        intent.putExtra(EditPostFragment.BUNDLE_MODEL_JSON, json)
         startActivityForResult(intent, PostFragment.REQUEST_EDIT)
 
         true
       }
       case PostFragment.MENU_ITEM_DELETE => {
 
-        new AlertDialogBuilder("Delete post", "Do you really want to delete this post?")(getActivity()) {
+        new AlertDialogBuilder("Delete Post", "Do you really want to delete this Post?")(getActivity()) {
           positiveButton(android.R.string.yes, (_, _) => {
 
             // TODO: Actually remove the object from database
-            toast("Post was deleted.")
+            toast("The Post was deleted.")
 
             getActivity().asInstanceOf[PostFragment.PostDeleteHandler].onPostDeleteHandler
           })
@@ -142,11 +143,11 @@ class PostFragment extends Fragment {
             mModel = new Gson().fromJson(json, classOf[Post])
 
             // TODO: Save the edited object to the database
-            displayPost()
+            display()
         }
         else
         {
-            Toast.makeText(getActivity(), "Post edit was canceled.", Toast.LENGTH_LONG).show()
+            Toast.makeText(getActivity(), "Edit was canceled.", Toast.LENGTH_LONG).show()
         }
        }
     }
